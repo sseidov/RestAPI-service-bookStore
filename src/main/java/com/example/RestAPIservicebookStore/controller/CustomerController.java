@@ -3,7 +3,6 @@ package com.example.RestAPIservicebookStore.controller;
 import com.example.RestAPIservicebookStore.entity.Customer;
 import com.example.RestAPIservicebookStore.exception.CustomerAlreadyExistException;
 import com.example.RestAPIservicebookStore.exception.CustomerDoesntExistException;
-import com.example.RestAPIservicebookStore.repository.CustomerRepository;
 import com.example.RestAPIservicebookStore.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     @Autowired
-    CustomerService customerService;
+    private CustomerService customerService;
 
-    @PostMapping
+    @PostMapping("/add")
     private ResponseEntity registration(@RequestBody Customer customer){
         try {
             customerService.registration(customer);
@@ -24,7 +23,7 @@ public class CustomerController {
         } catch (CustomerAlreadyExistException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e){
-             return ResponseEntity.badRequest().body("Ошибка регистрации пользователя");
+             return ResponseEntity.badRequest().body("Ошибка регистрации пользователя.");
         }
     }
 
@@ -33,7 +32,7 @@ public class CustomerController {
         try {
             return ResponseEntity.ok("Сервер работает");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return ResponseEntity.badRequest().body("Произошла ошибка работы сервера.");
         }
     }
 
@@ -44,7 +43,7 @@ public class CustomerController {
         } catch (CustomerDoesntExistException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return ResponseEntity.badRequest().body("Произошла ошибка просмотра пользовательских данных.");
         }
     }
 
@@ -56,7 +55,7 @@ public class CustomerController {
         } catch (CustomerDoesntExistException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return ResponseEntity.badRequest().body("Произошла ошибка обновления данных пользователя.");
         }
     }
 
@@ -67,7 +66,7 @@ public class CustomerController {
         } catch (CustomerDoesntExistException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Произошла ошибка удаления клиента");
+            return ResponseEntity.badRequest().body("Произошла ошибка удаления клиента.");
         }
     }
 
