@@ -18,12 +18,18 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "fullName", nullable = false)
-    private String fullName;
+    @Column(name = "firsName", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "dateOfBirth")
+    @Temporal(TemporalType.DATE)
+    private java.util.Date dateOfBirth;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "enrolledAuthors")
     private Set<Book> books = new HashSet<>();
-
 
 }

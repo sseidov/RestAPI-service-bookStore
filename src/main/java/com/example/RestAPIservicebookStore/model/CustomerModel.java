@@ -4,8 +4,8 @@ import com.example.RestAPIservicebookStore.entity.Customer;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 public class CustomerModel {
 
     private int discount;

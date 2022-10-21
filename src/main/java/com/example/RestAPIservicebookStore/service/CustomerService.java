@@ -52,7 +52,6 @@ public class CustomerService {
     }
 
     public Long deleteById(Long id) throws CustomerDoesntExistException{
-
         if(!customerRepository.findById(id).isPresent()){
             throw new CustomerDoesntExistException("Пользователя с таким id не существует.");
         }
