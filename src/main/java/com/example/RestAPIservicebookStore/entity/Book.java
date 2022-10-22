@@ -38,4 +38,7 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> enrolledAuthors = new HashSet<>();
 
+    public void enrollAuthorToBook(Author author) {
+        enrolledAuthors.add(author);
+    }
 }

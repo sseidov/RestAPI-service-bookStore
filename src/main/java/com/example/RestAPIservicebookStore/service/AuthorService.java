@@ -33,6 +33,14 @@ public class AuthorService {
         return AuthorModel.toModel(author);
     }
 
+    public Author getAuthorByIdNotModel(Long id) throws AuthorDoesntExistException {
+        Author author = authorRepository.findById(id).get();
+        if(author == null){
+            throw new AuthorDoesntExistException("Писателя с данным id не существует.");
+        }
+        return author;
+    }
+
 
     public AuthorModel updateAuthor(Long id, Author updatedAuthor) throws AuthorDoesntExistException {
         Author author = authorRepository.findById(id).get();

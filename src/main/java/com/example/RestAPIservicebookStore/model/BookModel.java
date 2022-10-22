@@ -1,5 +1,6 @@
 package com.example.RestAPIservicebookStore.model;
 
+import com.example.RestAPIservicebookStore.entity.Author;
 import com.example.RestAPIservicebookStore.entity.Book;
 import com.example.RestAPIservicebookStore.entity.Customer;
 import lombok.Getter;
@@ -9,7 +10,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,6 +23,7 @@ public class BookModel {
     private BigDecimal price;
     @Temporal(TemporalType.DATE)
     private java.util.Date date;
+    private Set<Author> enrolledAuthors = new HashSet<>();
 
 
     public static BookModel toModel(Book book){
@@ -28,6 +32,7 @@ public class BookModel {
         bookModel.setCategory(book.getCategory());
         bookModel.setPrice(book.getPrice());
         bookModel.setDate(book.getDate());
+        bookModel.setEnrolledAuthors(book.getEnrolledAuthors());
         return bookModel;
     }
 

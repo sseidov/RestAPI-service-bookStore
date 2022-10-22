@@ -1,8 +1,10 @@
 package com.example.RestAPIservicebookStore.controller;
 
+import com.example.RestAPIservicebookStore.entity.Author;
 import com.example.RestAPIservicebookStore.entity.Book;
 import com.example.RestAPIservicebookStore.exception.BookAlreadyExistException;
 import com.example.RestAPIservicebookStore.exception.BookDoesntExistException;
+import com.example.RestAPIservicebookStore.service.AuthorService;
 import com.example.RestAPIservicebookStore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/book")
 public class BookController {
 
-    @Autowired
     private BookService bookService;
+    @Autowired
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    private AuthorService authorService;
+    @Autowired
+    public void setAuthorService(AuthorService authorService) {
+        this.authorService = authorService;
+    }
 
     @PostMapping("/add")
     private ResponseEntity addNewBook(@RequestBody Book book){
@@ -56,6 +67,25 @@ public class BookController {
             return ResponseEntity.badRequest().body("Произошла ошибка обновления данных книги.");
         }
     }
+
+    @PutMapping("/{bookId}/author/{authorId}")
+    public ResponseEntity enrollAuthorToBook(@PathVariable Long bookId,
+                                             @PathVariable Long authorId){
+        try {
+            Book book = bookService.getBookById(bookId);
+            Author author = authorService.getAuthorByIdNotModel(authorId);
+
+            book.enrollAuthorToBook(author);
+            bookService.saveBook(book);
+            return ResponseEntity.ok("Автор добавлен в книгу.");
+        } catch (BookDoesntExistException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Произошла ошибка обновления данных книги.");
+        }
+
+    }
+
     @DeleteMapping("/del/{id}")
     public ResponseEntity deleteById(@PathVariable Long id){
         try {

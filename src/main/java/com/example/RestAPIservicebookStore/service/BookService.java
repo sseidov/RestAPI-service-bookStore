@@ -36,6 +36,19 @@ public class BookService {
         return BookModel.toModel(book);
     }
 
+    public Book getBookById(Long id) throws BookDoesntExistException {
+        Book book = bookRepository.findById(id).get();
+        if(book == null){
+            throw new BookDoesntExistException("Книги с таким id нет в каталоге.");
+        }
+        return book;
+    }
+
+    public void saveBook(Book book) {
+        bookRepository.save(book);
+    }
+
+
     public List<BookModel> getAllBooks(){
         List<Book> books = new ArrayList<>();
         List<BookModel> bookModels = new ArrayList<>();
