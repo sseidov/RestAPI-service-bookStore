@@ -2,6 +2,7 @@ package com.example.RestAPIservicebookStore.model;
 
 import com.example.RestAPIservicebookStore.entity.Author;
 import com.example.RestAPIservicebookStore.entity.Book;
+import com.example.RestAPIservicebookStore.entity.BookHistory;
 import com.example.RestAPIservicebookStore.entity.Customer;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class BookModel {
     @Temporal(TemporalType.DATE)
     private java.util.Date date;
     private Set<Author> enrolledAuthors = new HashSet<>();
+    private Set<BookHistory> priceStory = new HashSet<>();
 
 
     public static BookModel toModel(Book book){
@@ -33,6 +35,7 @@ public class BookModel {
         bookModel.setPrice(book.getPrice());
         bookModel.setDate(book.getDate());
         bookModel.setEnrolledAuthors(book.getEnrolledAuthors());
+        bookModel.setPriceStory(book.getPriceStory());
         return bookModel;
     }
 

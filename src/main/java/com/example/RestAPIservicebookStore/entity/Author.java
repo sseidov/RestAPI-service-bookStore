@@ -29,7 +29,7 @@ public class Author {
     private java.util.Date dateOfBirth;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "enrolledAuthors")
+    @ManyToMany(mappedBy = "enrolledAuthors", cascade = CascadeType.ALL)
     private Set<Book> books = new HashSet<>();
 
 }

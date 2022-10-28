@@ -1,30 +1,40 @@
 package com.example.RestAPIservicebookStore.service;
 
 import com.example.RestAPIservicebookStore.entity.Book;
+import com.example.RestAPIservicebookStore.entity.BookHistory;
 import com.example.RestAPIservicebookStore.exception.BookAlreadyExistException;
 import com.example.RestAPIservicebookStore.exception.BookDoesntExistException;
 import com.example.RestAPIservicebookStore.model.BookModel;
+import com.example.RestAPIservicebookStore.repository.BookHistoryRepository;
 import com.example.RestAPIservicebookStore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
 public class BookService {
 
     private BookRepository bookRepository;
-
     @Autowired
     public void setBookRepository(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+    }
+
+    private BookHistoryRepository bookHistoryRepository;
+    @Autowired
+    public void setBookHistoryRepository(BookHistoryRepository bookHistoryRepository) {
+        this.bookHistoryRepository = bookHistoryRepository;
     }
 
     public Book addNewBook(Book book) throws BookAlreadyExistException {
         if ( bookRepository.findByTitle(book.getTitle()) != null){
             throw new BookAlreadyExistException("Книга с таким названием уже существует.");
         }
+
+
         return bookRepository.save(book);
     }
 
@@ -51,7 +61,6 @@ public class BookService {
 
     public List<BookModel> getAllBooks(){
         List<Book> books = new ArrayList<>();
-        List<BookModel> bookModels = new ArrayList<>();
         books.addAll(bookRepository.findAll());
 
         return BookModel.listToModel(books);

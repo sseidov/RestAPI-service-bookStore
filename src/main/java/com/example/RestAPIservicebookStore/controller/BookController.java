@@ -68,24 +68,6 @@ public class BookController {
         }
     }
 
-    @PutMapping("/{bookId}/author/{authorId}")
-    public ResponseEntity enrollAuthorToBook(@PathVariable Long bookId,
-                                             @PathVariable Long authorId){
-        try {
-            Book book = bookService.getBookById(bookId);
-            Author author = authorService.getAuthorByIdNotModel(authorId);
-
-            book.enrollAuthorToBook(author);
-            bookService.saveBook(book);
-            return ResponseEntity.ok("Автор добавлен в книгу.");
-        } catch (BookDoesntExistException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Произошла ошибка обновления данных книги.");
-        }
-
-    }
-
     @DeleteMapping("/del/{id}")
     public ResponseEntity deleteById(@PathVariable Long id){
         try {
@@ -97,8 +79,43 @@ public class BookController {
         }
     }
 
+//  Add author to the book description
+    @PutMapping("/{bookId}/author/{authorId}")
+    public ResponseEntity enrollAuthorToBook(@PathVariable Long bookId,
+                                             @PathVariable Long authorId){
+        try {
+            Book book = bookService.getBookById(bookId);
+            Author author = authorService.getAuthorByIdNotModel(authorId);
+
+            book.enrollAuthorToBook(author);
+            bookService.saveBook(book);
+            return ResponseEntity.ok("Писатель добавлен в описание книги.");
+        } catch (BookDoesntExistException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Произошла ошибка добавления автора для данной книги.");
+        }
+
+    }
+
+    @DeleteMapping("/{bookId}/del/author/{authorId}")
+    public ResponseEntity deleteAuthorFromBookDescription(@PathVariable Long bookId,
+                                                          @PathVariable Long authorId){
+        try {
+            Book book = bookService.getBookById(bookId);
+            Author author = authorService.getAuthorByIdNotModel(authorId);
+
+            book.deleteAuthorFromBook(author);
+            bookService.saveBook(book);
+            return ResponseEntity.ok("Автор удален из книги.");
+        } catch (BookDoesntExistException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Произошла ошибка удаления автора из книги.");
+        }
 
 
+    }
 
 
 }
